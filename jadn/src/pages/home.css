@@ -1,0 +1,19 @@
+
+
+.input{
+    width: 800px;
+    height: 40px;
+    border-radius: 15px;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+}
+
+.button{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color: #0859d2;
+    padding: 12px;
+    margin-left: 5px;
+    
+}
