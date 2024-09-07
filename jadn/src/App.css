@@ -40,3 +40,12 @@
 .read-the-docs {
   color: #888;
 }
+
+.sign{
+  display: flex;
+  justify-content: center;  /* Horizontally centers the element */
+  align-items: center;      /* Vertically centers the element */
+  height: 5vh;    
+  
+  
+}
