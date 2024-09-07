@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import {GoogleLogin} from '@react-oauth/google';
-// import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 function App() {
   const [count, setCount] = useState(0)
@@ -11,21 +9,26 @@ function App() {
 
   useEffect(() => {
     // Initialize Google Identity Services
-    google.accounts.id.initialize({
-      client_id: '160333056268-edmk64mt11fbrovc9m9hb7fdqgpc8vas.apps.googleusercontent.com', // Your Google Client ID
-      callback: handleCredentialResponse,
-      useFedCM: true  // Enable FedCM
-    });
-
-    // Display the One Tap or FedCM prompt
-    google.accounts.id.prompt();
+    if (window.google && !window.signInPromptTriggered){
+      google.accounts.id.initialize({
+        client_id: '160333056268-edmk64mt11fbrovc9m9hb7fdqgpc8vas.apps.googleusercontent.com', 
+        callback: handleCredentialResponse,
+        scope: 'https://www.googleapis.com/auth/calendar.events',
+        useFedCM: true  
+      });
+  
+      google.accounts.id.prompt();
+    }
+    
   }, [])
 
   const handleCredentialResponse = (response) => {
-    console.log("Encoded JWT ID token: " + response.credential);
-    // Store the token or handle it as needed
-    navigate('/home');  // Navigate to home after login
+    console.log("token: " + response.credential);
+    const t = response.credential
+    localStorage.setItem('token', t)
+    navigate('/home');  
   }
+  
   return (
     <>
       <div>
