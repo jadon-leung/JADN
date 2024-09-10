@@ -23,11 +23,12 @@ function App() {
         window.google.accounts.id.initialize({
           client_id: '160333056268-edmk64mt11fbrovc9m9hb7fdqgpc8vas.apps.googleusercontent.com',
           callback: handleCredentialResponse,
+          scope: 'https://www.googleapis.com/auth/calendar.events',
           context: 'signin',
           ux_mode: 'popup',
+          prompt: 'consent',
           login_uri: 'http://localhost:5173', // Replace with your login URL
           nonce: '',
-          scope: 'https://www.googleapis.com/auth/calendar.events',
           itp_support: true
         });
 

@@ -5,10 +5,10 @@ import {gapi} from 'gapi-script'
 function Home() {
   
   const [val, setVal] = useState("schedule a dinner at Denny's from 6pm to 8pm?");
-   var CLIENT_ID = '160333056268-edmk64mt11fbrovc9m9hb7fdqgpc8vas.apps.googleusercontent.com'
-   var API_KEY = 'AIzaSyBbZubFW_llg2EBTwO7JKbgYVZehkehCV0'
-   var DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest']
-   var SCOPES = 'https://www.googleapis.com/auth/calendar'
+  //  var CLIENT_ID = '160333056268-edmk64mt11fbrovc9m9hb7fdqgpc8vas.apps.googleusercontent.com'
+  //  var API_KEY = 'AIzaSyBbZubFW_llg2EBTwO7JKbgYVZehkehCV0'
+  //  var DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest']
+  //  var SCOPES = 'https://www.googleapis.com/auth/calendar'
   
   const makeGoogleCalendarApiCall = async () => {
     const token = localStorage.getItem('token');
@@ -40,7 +40,7 @@ function Home() {
    const apiUrl = 'https://api.openai.com/v1/chat/completions'
    const tok = localStorage.getItem('token')
    console.log('tok: ', tok)
-   makeGoogleCalendarApiCall()
+  makeGoogleCalendarApiCall()
   try {
      const result = await fetch(apiUrl, {
        method: 'POST',
@@ -98,6 +98,8 @@ function Home() {
        
      };
       
+     
+
      console.log('outside insert')
      console.log(localStorage.getItem('token'));  // Ensure a token is present
       gapi.client.calendar.events.insert({
