@@ -5,46 +5,43 @@ import {gapi} from 'gapi-script'
 function Home() {
   
   const [val, setVal] = useState("schedule a dinner at Denny's from 6pm to 8pm?");
-  var gapi = window.gapi
-   var CLIENT_ID = "160333056268-edmk64mt11fbrovc9m9hb7fdqgpc8vas.apps.googleusercontent.com"
-   var API_KEY = "AIzaSyBbZubFW_llg2EBTwO7JKbgYVZehkehCV0"
+   var CLIENT_ID = '160333056268-edmk64mt11fbrovc9m9hb7fdqgpc8vas.apps.googleusercontent.com'
+   var API_KEY = 'AIzaSyBbZubFW_llg2EBTwO7JKbgYVZehkehCV0'
    var DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest']
-   var SCOPES = 'https://www.googleapis.com/auth/calendar.events'
-
-
-  const initializeGapiClient = async (token) => {
-    console.log('in initializedGapiClient()');
-    gapi.load('client', () => {
-      console.log('loaded client');
-      console.log('TOKEN: ', token);
+   var SCOPES = 'https://www.googleapis.com/auth/calendar'
   
-      gapi.client.init({
-        apiKey: API_KEY, 
-        clientId: CLIENT_ID,
-        discoveryDocs: DISCOVERY_DOCS,
-        scope: SCOPES
-      })
-      .then(() => {
-        console.log('Google API client initialized');
-        gapi.client.load('calendar', 'v3', () => {
-          console.log('bam!');
-        });
-      })
-      .catch((error) => {
-        console.error('Error initializing GAPI client:', error);
-      });
+  const makeGoogleCalendarApiCall = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error("No OAuth token found, please log in again.");
+      return;
+    }
+  
+    gapi.load('client', async () => {
+      try {
+        await gapi.client.load('calendar', 'v3');
+        console.log('Google Calendar API loaded successfully');
+        console.log('token in gapi client load', token)
+        // Set the OAuth token
+        gapi.client.setToken({ access_token: token });
+  
+      } catch (error) {
+        console.error('Error loading Calendar API or making API call:', error);
+      }
     });
   };
+  
   
  
 
 
  const click = async () => {
-   const apiKey2 = "sk-W5Rr8k_fgf5sNPVIvatjRZp4UyuCmr2Ayv5xZy1jqRT3BlbkFJU8d1OzCUjU_qPoNcdoPvyhdHF3u67B5s4G2iQtwHsA"; // Ensure the API key is correct and replace with your actual key
-   const apiUrl = 'https://api.openai.com/v1/chat/completions';
+   const apiKey2 = "sk-W5Rr8k_fgf5sNPVIvatjRZp4UyuCmr2Ayv5xZy1jqRT3BlbkFJU8d1OzCUjU_qPoNcdoPvyhdHF3u67B5s4G2iQtwHsA" // Ensure the API key is correct and replace with your actual key
+   const apiUrl = 'https://api.openai.com/v1/chat/completions'
    const tok = localStorage.getItem('token')
-   initializeGapiClient(tok)
-   try {
+   console.log('tok: ', tok)
+   makeGoogleCalendarApiCall()
+  try {
      const result = await fetch(apiUrl, {
        method: 'POST',
        headers: {
@@ -98,12 +95,11 @@ function Home() {
        'recurrence': [
          'RRULE:FREQ=DAILY;COUNT=2'
        ],
-       'headers':{
-        'Authorization': `Bearer ${tok}`,
-       }
+       
      };
       
      console.log('outside insert')
+     console.log(localStorage.getItem('token'));  // Ensure a token is present
       gapi.client.calendar.events.insert({
         calendarId: 'primary',
         resource: event,

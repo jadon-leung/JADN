@@ -35,16 +35,17 @@
 
 .card {
   padding: 2em;
+  
 }
 
 .read-the-docs {
   color: #888;
 }
 
-.sign{
+#g_id_signin{
   display: flex;
-  justify-content: center;  /* Horizontally centers the element */
-  align-items: center;      /* Vertically centers the element */
+  justify-content: center;  
+  align-items: center;      
   height: 5vh;    
   
   
